@@ -1,0 +1,13 @@
+import json
+import os
+
+# Extract RF config from config.yaml
+import yaml
+with open("config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+
+rf_config = config["modeling"]["random_forest"]
+rf_config_path = os.path.abspath("rf_config.json")
+
+with open(rf_config_path, "w+") as fp:
+    json.dump(rf_config, fp)

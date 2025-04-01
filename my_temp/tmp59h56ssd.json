@@ -1,0 +1,19 @@
+{
+    "version": 1,
+    "storagePolicy": "wandb-storage-policy-v1",
+    "storagePolicyConfig": {
+        "storageLayout": "V2"
+    },
+    "contents": {
+        "input_example.csv": {
+            "digest": "vW+6PdpdEy1R+PGFV/AVXg==",
+            "birthArtifactID": "QXJ0aWZhY3Q6MTYxNjI2MjU4NA==",
+            "size": 937
+        },
+        "model.pkl": {
+            "digest": "w5sT8+L145gg0ExJpt6ttw==",
+            "birthArtifactID": "QXJ0aWZhY3Q6MTYxNjI2NDM3Mg==",
+            "size": 13607364
+        }
+    }
+}

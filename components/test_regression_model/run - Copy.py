@@ -5,23 +5,26 @@ This step takes the best model, tagged with the "prod" tag, and tests it against
 import argparse
 import logging
 import wandb
+import mlflow
 import pandas as pd
-import pickle
-import os
 from sklearn.metrics import mean_absolute_error
+
+from wandb_utils.log_artifact import log_artifact
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
 
 def go(args):
+
     run = wandb.init(job_type="test_model")
     run.config.update(args)
 
     logger.info("Downloading artifacts")
     # Download input artifact. This will also log that this script is using this
     # particular version of the artifact
-    model_local_path = run.use_artifact(args.model_artifact).download()
+    model_local_path = run.use_artifact(args.mlflow_model).download()
 
     # Download test dataset
     test_dataset_path = run.use_artifact(args.test_dataset).file()
@@ -31,10 +34,7 @@ def go(args):
     y_test = X_test.pop("price")
 
     logger.info("Loading model and performing inference on test set")
-    # Load using pickle instead of mlflow
-    with open(os.path.join(model_local_path, "model.pkl"), "rb") as f:
-        sk_pipe = pickle.load(f)
-
+    sk_pipe = mlflow.sklearn.load_model(model_local_path)
     y_pred = sk_pipe.predict(X_test)
 
     logger.info("Scoring")
@@ -51,18 +51,19 @@ def go(args):
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser(description="Test the provided model against the test dataset")
 
     parser.add_argument(
-        "--model_artifact",
-        type=str,
-        help="Input model artifact with prod tag",
+        "--mlflow_model",
+        type=str, 
+        help="Input MLFlow model",
         required=True
     )
 
     parser.add_argument(
         "--test_dataset",
-        type=str,
+        type=str, 
         help="Test dataset",
         required=True
     )

@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "storagePolicy": "wandb-storage-policy-v1",
+    "storagePolicyConfig": {
+        "storageLayout": "V2"
+    },
+    "contents": {
+        "trainval_data.csv": {
+            "digest": "11bBgOrj41OWNml15Pf2Uw==",
+            "birthArtifactID": "QXJ0aWZhY3Q6MTYxNDA5NTc1Nw==",
+            "size": 2245727
+        }
+    }
+}
